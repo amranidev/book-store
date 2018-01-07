@@ -29,10 +29,8 @@ import Book from "@/models/Book"
 import File from "@/models/File"
 
 export default {
-    mounted() {
-        console.log("component is ready!!")
-    },
-    firestore(){
+
+    firestore() {
         return {
             books: this.$store.state.firestore.collection("books")
         }
@@ -45,12 +43,30 @@ export default {
     },
     methods: {
         submit() {
-            // console.log(this.fifo)
-            // Upload the Image first
-            // this.$storage.upload({})
+            // upload and add a new book record to the database.
+            this.$storage.upload(this.file)
         },
-        getFile(e){
-            this.book.cover = e.target.files[0]
+        getFile(e) {
+            this.file.file = e.target.files[0]
+
+            if (!this.file.file) {
+                return
+            }
+
+            this.file.ref = `/images/books/${this.file.file.name}`
+
+            this.file.completed = (downloadURL) => {
+                this.book.cover = downloadURL
+                this.book.created = this.$store.state.firebase.firestore.FieldValue.serverTimestamp()
+                this.$firestore.books.add(this.book.toJson()).then(() => {
+                    console.log("Done!!")
+                    this.$router.push('book')
+                })
+            }
+
+            this.file.error = (err) => {
+                console.error(err.message)
+            }
         }
     }
 }
