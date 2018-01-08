@@ -3,16 +3,20 @@ export default class Book {
     constructor() {
         this.title = ""
         this.author = ""
-        this.cover = null
+        this.coverURL = ""
+        this.coverRef = ""
         this.created = ""
+        this.description = ""
     }
 
     toJson() {
         return {
             title: this.title,
             author: this.author,
-            cover: this.cover,
-            created: this.created
+            coverURL: this.coverURL,
+            coverRef: this.coverRef,
+            created: this.created,
+            description: this.description
         }
     }
 }
