@@ -5,22 +5,26 @@
                 <md-card class="book-card">
                     <md-card-header>
                         <md-card-media md-medium>
-                            <img :src="b.cover" alt="People">
+                            <img :src="b.coverURL" alt="People">
                         </md-card-media>
                         <div class="md-title">{{b.title}}</div>
                         <div class="md-subhead">{{b.author}}</div>
                     </md-card-header>
 
                     <md-card-actions>
-                        <md-button>Action</md-button>
-                        <md-button>Action</md-button>
+                        <md-button @click="remove(b)" class="md-raised md-accent">Delete
+                            <md-icon>delete</md-icon>
+                        </md-button>
+                        <md-button class="md-raised md-primary">Edit
+                            <md-icon>edit</md-icon>
+                        </md-button>
                     </md-card-actions>
-
                     <md-card-content>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea, nostrum odio. Dolores, sed accusantium quasi non, voluptas eius illo quas, saepe voluptate pariatur in deleniti minus sint. Excepturi.
+                        {{b.description}}
                     </md-card-content>
                 </md-card>
             </md-layout>
+            <h1 v-if="!books.length">Empty</h1>
         </md-layout>
     </div>
 </template>
@@ -38,7 +42,20 @@ export default {
         }
     },
     methods: {
-        // methods
+        remove(book) {
+            var coverRef = book.coverRef
+            this.$store.state.firestore.collection("books").doc(book['.key']).delete().then(() => {
+                this.$storage.delete({
+                    ref: coverRef,
+                    result: () => {
+                        console.log("Done")
+                    },
+                    error: (err) => {
+                        console.error(err.message)
+                    }
+                })
+            })
+        }
     }
 }
 </script>
