@@ -6,15 +6,19 @@
                 <form @submit.stop.prevent="submit">
                     <md-input-container>
                         <label>Title</label>
-                        <md-input v-model="book.title"></md-input>
+                        <md-input v-model.trim="book.title"></md-input>
                     </md-input-container>
                     <md-input-container>
                         <label>Author</label>
-                        <md-input v-model="book.author"></md-input>
+                        <md-input v-model.trim="book.author"></md-input>
                     </md-input-container>
                     <md-input-container>
                         <label>Cover</label>
                         <md-file @change.native="getFile"></md-file>
+                    </md-input-container>
+                    <md-input-container md-theme="default">
+                        <label>Description</label>
+                        <md-textarea v-model.trim="book.description"></md-textarea>
                     </md-input-container>
                     <md-button type="submit" class="md-raised md-primary">Create new Book</md-button>
                 </form>
@@ -54,9 +58,10 @@ export default {
             }
 
             this.file.ref = `/images/books/${this.file.file.name}`
-
+            this.book.coverRef = this.file.ref
             this.file.completed = (downloadURL) => {
-                this.book.cover = downloadURL
+                console.log(downloadURL)
+                this.book.coverURL = downloadURL
                 this.book.created = this.$store.state.firebase.firestore.FieldValue.serverTimestamp()
                 this.$firestore.books.add(this.book.toJson()).then(() => {
                     console.log("Done!!")
