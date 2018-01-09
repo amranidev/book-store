@@ -24,8 +24,8 @@
                     </md-card-content>
                 </md-card>
             </md-layout>
-            <h1 v-if="!books.length">Empty</h1>
         </md-layout>
+        <h1 v-if="!books.length">Empty</h1>
     </div>
 </template>
 
