@@ -24,6 +24,11 @@
                 </form>
             </md-whiteframe>
         </md-layout>
+        <div id="spinner" class="overlay" v-if="spinner">
+            <div class="flex-spinner">
+                <md-spinner :md-size="150" md-indeterminate></md-spinner>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -42,20 +47,21 @@ export default {
     data() {
         return {
             book: new Book(),
-            file: new File()
+            file: new File(),
+            spinner: false
         }
     },
     methods: {
         submit() {
             // upload and add a new book record to the database.
+            this.spinner = true
             this.$storage.upload(this.file)
         },
         getFile(e) {
-            this.file.file = e.target.files[0]
-
-            if (!this.file.file) {
+            if (!e.target.files[0]) {
                 return
             }
+            this.file.file = e.target.files[0]
 
             this.file.ref = `/images/books/${this.file.file.name}`
             this.book.coverRef = this.file.ref
@@ -64,8 +70,11 @@ export default {
                 this.book.coverURL = downloadURL
                 this.book.created = this.$store.state.firebase.firestore.FieldValue.serverTimestamp()
                 this.$firestore.books.add(this.book.toJson()).then(() => {
+                    this.spinner = false
                     console.log("Done!!")
                     this.$router.push('book')
+                }).catch((err) => {
+                    this.spinner = false
                 })
             }
 
