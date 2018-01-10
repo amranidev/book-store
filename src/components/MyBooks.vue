@@ -4,13 +4,12 @@
             <md-layout v-for="(b,index) in books" :key="index" md-flex-small="100" md-flex-xsmall="100" md-flex-medium="30">
                 <md-card class="book-card">
                     <md-card-header>
-                        <md-card-media md-medium>
-                            <img :src="b.coverURL" alt="People">
-                        </md-card-media>
                         <div class="md-title">{{b.title}}</div>
                         <div class="md-subhead">{{b.author}}</div>
                     </md-card-header>
-
+                    <md-card-media md-ratio="1/1">
+                        <img :src="b.coverURL" alt="People">
+                    </md-card-media>
                     <md-card-actions>
                         <md-button @click="remove(b)" class="md-raised md-accent">Delete
                             <md-icon>delete</md-icon>
@@ -25,7 +24,9 @@
                 </md-card>
             </md-layout>
         </md-layout>
-        <h1 v-if="!books.length">Empty</h1>
+        <md-layout md-align="center">
+            <h1 v-if="!books.length">Empty</h1>
+        </md-layout>
     </div>
 </template>
 
