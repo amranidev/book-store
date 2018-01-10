@@ -28,21 +28,15 @@
 			</md-toolbar>
 			<md-list>
 				<md-list-item class="md-primary">
-					<router-link @click.native="$refs.leftSidenav.toggle()" to="/app">
-						<md-icon>dashboard</md-icon>
-						<span>Realtime database</span>
+					<router-link @click.native="$refs.leftSidenav.toggle()" to="/book">
+						<md-icon>library_books</md-icon>
+						<span>Mybooks</span>
 					</router-link>
 				</md-list-item>
 				<md-list-item class="md-primary">
-					<router-link @click.native="$refs.leftSidenav.toggle()" to="/firestore">
-						<md-icon>dashboard</md-icon>
-						<span>Cloud firestore</span>
-					</router-link>
-				</md-list-item>
-				<md-list-item class="md-primary">
-					<router-link @click.native="$refs.leftSidenav.toggle()" to="/update-profile">
-						<md-icon>person</md-icon>
-						<span>Update Profile</span>
+					<router-link @click.native="$refs.leftSidenav.toggle()" to="/new">
+						<md-icon>add</md-icon>
+						<span>New book</span>
 					</router-link>
 				</md-list-item>
 				<md-list-item class="md-primary">
